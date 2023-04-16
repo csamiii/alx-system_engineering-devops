@@ -3,7 +3,7 @@
 # Configure HAproxy so that it send traffic to web-01 and web-02
 # Distribute requests using a roundrobin algorithm
 # Make sure that HAproxy can be managed via an init script
-# configure server with the right hostnames: 158371-web-01 and 158371-web-02.
+# configure server with the right hostnames: 151063-web-01 and 151063-web-02.
 
 apt-get -y install software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-2.6
