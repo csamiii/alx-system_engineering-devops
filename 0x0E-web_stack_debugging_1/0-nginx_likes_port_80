@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Debugging Nginx to listen at port 80
+# I fixed that by removing /etc/nginx/sites-enabled/default
+# and creating a symbolic link between /etc/nginx/sites-available/default
+# and /etc/nginx/sites-enabled/default then restart Nginx.
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
