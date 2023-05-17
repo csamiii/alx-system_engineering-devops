@@ -2,22 +2,26 @@
 """Returns to-do list information for a given employee ID."""
 
 import requests
-from sys import argv
+import sys
 
-if __name__ == "__main__":
-    if (len(argv) > 1):
-        userId = argv[1]
-        url = 'https://jsonplaceholder.typicode.com'
-        userData = requests.get("{}/users/{}".format(url, userId)).json()
-        userName = userData.get("name")
-        if userName is not None:
-            allTasks = requests.get(
-                "{}/todos?userId={}".format(url, userId)).json()
-            completedTasks = []
-            for task in allTasks:
-                if task.get("completed"):
-                    completedTasks.append(task)
-            print("Employee {} is done with tasks({}/{}):"
-                  .format(userName, len(completedTasks), len(allTasks)))
-            for task in completedTasks:
-                print("\t {}".format(task.get("title")))
+REST_API = "https://jsonplaceholder.typicode.com"
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        if re.fullmatch(r'\d+', sys.argv[1]):
+            id = int(sys.argv[1])
+            req = requests.get('{}/users/{}'.format(REST_API, id)).json()
+            task_req = requests.get('{}/todos'.format(REST_API)).json()
+            emp_name = req.get('name')
+            tasks = list(filter(lambda x: x.get('userId') == id, task_req))
+            completed_tasks = list(filter(lambda x: x.get('completed'), tasks))
+            print(
+                'Employee {} is done with tasks({}/{}):'.format(
+                    emp_name,
+                    len(completed_tasks),
+                    len(tasks)
+                )
+            )
+            if len(completed_tasks) > 0:
+                for task in completed_tasks:
+                    print('\t {}'.format(task.get('title')))
