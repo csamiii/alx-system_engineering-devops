@@ -36,12 +36,13 @@ defaults
 frontend globalgangster-frontend
         bind *:80
         mode http
-        bind *:443 ssl crt /etc/haproxy/certs/globalgangster.tech.pem
+        bind *:443 ssl crt /etc/haproxy/certs/www.globalgangster.tech.pem
         redirect scheme https if !{ ssl_fc }
         stats uri /haproxy?stats
         default_backend web-servers
 
 backend web-servers
+        bind :80
         balance roundrobin
-        server 151063-web-01 54.237.10.47:80 check
-        server 151063-web-02 54.236.56.213:80 check
+        server 151063-web-01 100.25.212.218:80 check
+        server 151063-web-02 100.25.194.178:80 check
