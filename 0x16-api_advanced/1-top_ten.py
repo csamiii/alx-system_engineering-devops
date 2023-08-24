@@ -11,9 +11,9 @@ def top_ten(subreddit):
         - Failure: print None
     """
     endpoint = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    header = {'User-Agent': 'My User Agent 1.0'}
+    headers = {'User-Agent': 'My User Agent 1.0'}
     params = {'limit': 10}
-    res = get(endpoint, header=header, allow_redirects=False, params=params)
+    res = get(endpoint, headers=headers, allow_redirects=False, params=params)
 
     if res.status_code != 200:
         print(None)
