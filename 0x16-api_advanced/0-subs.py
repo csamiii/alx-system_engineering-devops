@@ -1,20 +1,18 @@
 #!/usr/bin/python3
-"""queries the Reddit API and 
-returns the number of total subscribers"""
-
+"""Queries and returns corresponding result from the Reddit API."""
 from requests import get
 
-def number_of_subscribers(subreddit):
-    """
-    - queries the Reddit API and returns the 
-      number of total subscribers
-    - returns 0 if not invalid subreddit
-    """
 
-    endpoint = 'https://www.reddit.com/r/{}/about.json'
-                                    .format(subreddit)
+def number_of_subscribers(subreddit):
+    """Description:
+    - queries and returns the number of subscibers
+      (not active users, total subscribers) for a given subreddit.
+    - returns 0 if an invalid subreddit is given
+    """
+    route = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
     headers = {'User-Agent': 'My User Agent 1.0'}
-    response = get(endpoint, headers=headers)
-    if response.status_code != 200:
+    res = get(route, headers=headers)
+
+    if res.status_code != 200:
         return 0
-    return response.json()['data']['subscribers']
+    return res.json()['data']['subscribers']
