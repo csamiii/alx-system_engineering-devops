@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Recursive function that queries the Reddit API."""
 import requests
-import sys
 after = None
 
 
@@ -14,7 +13,7 @@ def recurse(subreddit, hot_list=[]):
         a list containing the titles of all hot articles for the subreddit
         or None if queried subreddit is invalid."""
     global after
-    headers = {'User-Agent': 'xica369'}
+    headers = {'User-Agent': 'My-User-Agent'}
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     parameters = {'after': after}
     response = requests.get(url, headers=headers, allow_redirects=False,
