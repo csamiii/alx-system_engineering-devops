@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Recursive function that queries the Reddit API."""
-from requests import get
-previous = None
+import requests
+after = None
 
 
 def recurse(subreddit, hot_list=[]):
@@ -12,19 +12,19 @@ def recurse(subreddit, hot_list=[]):
     Returns:
         a list containing the titles of all hot articles for the subreddit
         or None if queried subreddit is invalid."""
-    global previous
+    global after
     headers = {'User-Agent': 'xica369'}
-    endpoint = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    params = {'after': previous}
-    res = get(endpoint, headers=headers, allow_redirects=False,
-                            params=params)
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    parameters = {'after': after}
+    response = requests.get(url, headers=headers, allow_redirects=False,
+                            params=parameters)
 
-    if res.status_code == 200:
-        after = res.json().get('data').get('after')
-        if after is not None:
-            previous = after
+    if response.status_code == 200:
+        next_ = response.json().get('data').get('after')
+        if next_ is not None:
+            after = next_
             recurse(subreddit, hot_list)
-        list_titles = res.json().get('data').get('children')
+        list_titles = response.json().get('data').get('children')
         for title_ in list_titles:
             hot_list.append(title_.get('data').get('title'))
         return hot_list
